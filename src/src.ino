@@ -258,6 +258,7 @@ void file_FyQ7r60TYwazpGRl() {
 void getOtaInfo(){
     String message = "<!doctype html> <html lang=\"zh_cn\"> <meta charset=\"utf-8\"> 提交成功，以下为提交信息: <br>";
     String STA_SSID,STA_PASSWD;
+    bool otaFlag = true;
     for (uint8_t i = 0; i < server.args(); i++) {
       if (server.argName(i) == "ssid" or server.argName(i) == "password")
       message += " " + server.argName(i) + ": " + server.arg(i) + "<br>";
@@ -273,7 +274,7 @@ void getOtaInfo(){
         STA_PASSWD = server.arg(i);
       }
     }
-    Serial.print(STA_SSID + ":" + );
+    Serial.print(STA_SSID + ":" + STA_PASSWD);
   }
   
 void setup( ){
