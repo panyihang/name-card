@@ -1,5 +1,5 @@
 data_dir = "data"
-cppFlie = 'auto.cpp'
+cppFlie = '../auto.cpp'
 indexFile = [
     'index.html',
 ]
@@ -61,5 +61,5 @@ if __name__ == '__main__' :
                         commandText = (('server.on("/",%s);\r') % randomName) + commandText
         else :
             pass
-    with open('auto.cpp','a',encoding='utf-8') as f:
+    with open(cppFlie,'a',encoding='utf-8') as f:
         f.write(commandText)
