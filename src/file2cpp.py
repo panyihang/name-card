@@ -3,6 +3,7 @@ cppFlie = '../auto.cpp'
 indexFile = [
     'index.html',
 ]
+serverName = 'server'
 import os
 import random
 import string
@@ -52,13 +53,13 @@ if __name__ == '__main__' :
                 randomName = str(randomHex(16))
                 f.write("void %s() { \r" % randomName)
                 f.write('       File file = SPIFFS.open("%s","r"); \r' % str(files[i]).lstrip(data_dir) )
-                f.write('       server.streamFile(file, "%s"); \r' % getInfo)
+                f.write('       %s.streamFile(file, "%s"); \r' % (serverName,getInfo))
                 f.write("       file.close();\r")
                 f.write("}\r")
-                commandText+=('server.on("%s",%s);\r') % (str(files[i]).lstrip(data_dir),(randomName))
+                commandText+=('%s.on("%s",%s);\r') % (serverName,str(files[i]).lstrip(data_dir),(randomName))
                 for y in range(len(indexFile)):
                     if indexFile[y] in files[i]:
-                        commandText = (('server.on("/",%s);\r') % randomName) + commandText
+                        commandText = (('%s.on("/",%s);\r') % (serverName,randomName)) + commandText
         else :
             pass
     with open(cppFlie,'a',encoding='utf-8') as f:
