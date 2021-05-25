@@ -41,26 +41,25 @@ def getFileInfo(filename):
         flag = not flag
         return(None,flag)
 
-if __name__ == '__main__' :
-    commandText =""
-    files,names = getRawFileList(data_dir)
-    for i in range(len(files)):
-        if len(str(files[i]).lstrip(data_dir))>=31:
-            print('Wroing: file [%s] name was too long' % str(files[i]).lstrip(data_dir))
-        getInfo,getFlag=getFileInfo(str(files[i]).lstrip(data_dir))
-        if "." in str(files[i]).lstrip(".") and getFlag:
-            with open(cppFlie,'a',encoding='utf-8') as f:
-                randomName = str(randomHex(16))
-                f.write("void %s() { \r" % randomName)
-                f.write('       File file = SPIFFS.open("%s","r"); \r' % str(files[i]).lstrip(data_dir) )
-                f.write('       %s.streamFile(file, "%s"); \r' % (serverName,getInfo))
-                f.write("       file.close();\r")
-                f.write("}\r")
-                commandText+=('%s.on("%s",%s);\r') % (serverName,str(files[i]).lstrip(data_dir),(randomName))
-                for y in range(len(indexFile)):
-                    if indexFile[y] in files[i]:
-                        commandText = (('%s.on("/",%s);\r') % (serverName,randomName)) + commandText
-        else :
-            pass
-    with open(cppFlie,'a',encoding='utf-8') as f:
-        f.write(commandText)
+commandText =""
+files,names = getRawFileList(data_dir)
+for i in range(len(files)):
+    if len(str(files[i]).lstrip(data_dir))>=31:
+        print('Wroing: file [%s] name was too long' % str(files[i]).lstrip(data_dir))
+    getInfo,getFlag=getFileInfo(str(files[i]).lstrip(data_dir))
+    if "." in str(files[i]).lstrip(".") and getFlag:
+        with open(cppFlie,'a',encoding='utf-8') as f:
+            randomName = str(randomHex(16))
+            f.write("void %s() { \r" % randomName)
+            f.write('       File file = SPIFFS.open("%s","r"); \r' % str(files[i]).lstrip(data_dir) )
+            f.write('       %s.streamFile(file, "%s"); \r' % (serverName,getInfo))
+            f.write("       file.close();\r")
+            f.write("}\r")
+            commandText+=('%s.on("%s",%s);\r') % (serverName,str(files[i]).lstrip(data_dir),(randomName))
+            for y in range(len(indexFile)):
+                if indexFile[y] in files[i]:
+                    commandText = (('%s.on("/",%s);\r') % (serverName,randomName)) + commandText
+    else :
+        pass
+with open(cppFlie,'a',encoding='utf-8') as f:
+    f.write(commandText)
